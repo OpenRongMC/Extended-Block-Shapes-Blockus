@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "#": "blockus:polished_basalt_bricks"
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "id": "extshape_blockus:polished_basalt_brick_pressure_plate"
+  }
+}

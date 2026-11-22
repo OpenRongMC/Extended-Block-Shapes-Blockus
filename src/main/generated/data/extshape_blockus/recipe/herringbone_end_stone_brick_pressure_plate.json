@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "#": "blockus:herringbone_end_stone_bricks"
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "id": "extshape_blockus:herringbone_end_stone_brick_pressure_plate"
+  }
+}

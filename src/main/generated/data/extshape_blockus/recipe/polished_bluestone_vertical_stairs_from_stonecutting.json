@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:polished_bluestone",
+  "result": {
+    "id": "extshape_blockus:polished_bluestone_vertical_stairs"
+  }
+}

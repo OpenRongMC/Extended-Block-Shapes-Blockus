@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "blockus:crimson_warty_blackstone_brick_slab"
+  ],
+  "result": {
+    "id": "extshape_blockus:crimson_warty_blackstone_brick_vertical_slab"
+  }
+}

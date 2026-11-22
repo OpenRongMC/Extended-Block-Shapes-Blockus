@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:small_phantom_purpur_bricks",
+  "result": {
+    "id": "extshape_blockus:small_phantom_purpur_brick_vertical_stairs"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:polished_amethyst",
+  "result": {
+    "id": "extshape_blockus:amethyst_brick_vertical_stairs"
+  }
+}

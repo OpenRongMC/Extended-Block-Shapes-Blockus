@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "#": "blockus:membrane_block"
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "id": "extshape_blockus:membrane_pressure_plate"
+  }
+}

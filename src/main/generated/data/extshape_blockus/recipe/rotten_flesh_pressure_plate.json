@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "#": "blockus:rotten_flesh_block"
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "id": "extshape_blockus:rotten_flesh_pressure_plate"
+  }
+}

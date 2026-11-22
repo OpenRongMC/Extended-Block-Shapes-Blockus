@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "group": "shingles_button",
+  "ingredients": [
+    "blockus:orange_shingles"
+  ],
+  "result": {
+    "id": "extshape_blockus:orange_shingles_button"
+  }
+}

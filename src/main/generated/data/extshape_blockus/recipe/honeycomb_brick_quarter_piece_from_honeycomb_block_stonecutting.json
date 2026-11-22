@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:honeycomb_block",
+  "result": {
+    "count": 4,
+    "id": "extshape_blockus:honeycomb_brick_quarter_piece"
+  }
+}

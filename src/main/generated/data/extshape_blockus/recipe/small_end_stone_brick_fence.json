@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": "minecraft:end_stone_bricks",
+    "W": "blockus:small_end_stone_bricks"
+  },
+  "pattern": [
+    "W#W",
+    "W#W"
+  ],
+  "result": {
+    "count": 2,
+    "id": "extshape_blockus:small_end_stone_brick_fence"
+  }
+}

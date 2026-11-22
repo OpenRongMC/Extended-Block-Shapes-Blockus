@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:ender_block",
+  "result": {
+    "id": "extshape_blockus:ender_vertical_stairs"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "#": "blockus:chocolate_bricks"
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "id": "extshape_blockus:chocolate_brick_pressure_plate"
+  }
+}

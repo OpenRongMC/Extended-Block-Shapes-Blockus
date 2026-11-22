@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "extshape_blockus:limestone_quarter_piece"
+  ],
+  "result": {
+    "id": "extshape_blockus:limestone_vertical_quarter_piece"
+  }
+}

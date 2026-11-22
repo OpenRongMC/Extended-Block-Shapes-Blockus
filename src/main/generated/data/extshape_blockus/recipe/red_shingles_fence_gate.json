@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "shingles_fence_gate",
+  "key": {
+    "#": "minecraft:flint",
+    "W": "blockus:red_shingles"
+  },
+  "pattern": [
+    "#W#",
+    "#W#"
+  ],
+  "result": {
+    "count": 3,
+    "id": "extshape_blockus:red_shingles_fence_gate"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:warped_wart_bricks",
+  "result": {
+    "id": "extshape_blockus:warped_wart_brick_vertical_stairs"
+  }
+}

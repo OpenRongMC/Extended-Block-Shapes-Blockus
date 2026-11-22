@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": "blockus:soul_sandstone_brick_slab"
+  },
+  "pattern": [
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "id": "extshape_blockus:soul_sandstone_brick_quarter_piece"
+  }
+}

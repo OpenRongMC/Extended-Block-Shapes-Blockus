@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:gray_concrete",
+  "result": {
+    "id": "extshape_blockus:gray_concrete_brick_vertical_stairs"
+  }
+}

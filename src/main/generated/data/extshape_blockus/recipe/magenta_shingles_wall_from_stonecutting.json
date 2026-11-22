@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:magenta_shingles",
+  "result": {
+    "id": "extshape_blockus:magenta_shingles_wall"
+  }
+}

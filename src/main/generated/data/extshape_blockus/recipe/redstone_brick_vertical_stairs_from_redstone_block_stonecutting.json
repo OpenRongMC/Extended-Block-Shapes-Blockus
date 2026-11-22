@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:redstone_block",
+  "result": {
+    "id": "extshape_blockus:redstone_brick_vertical_stairs"
+  }
+}

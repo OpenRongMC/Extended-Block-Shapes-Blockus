@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "condition": "minecraft:tool/can_silk_touch",
+              "name": "extshape_blockus:burnt_paper_vertical_stairs"
+            },
+            {
+              "type": "minecraft:item",
+              "modifier": [
+                {
+                  "type": "minecraft:set_count",
+                  "count": 2
+                },
+                {
+                  "type": "minecraft:explosion_decay"
+                }
+              ],
+              "name": "minecraft:gunpowder"
+            }
+          ]
+        }
+      ],
+      "rolls": 1
+    }
+  ]
+}

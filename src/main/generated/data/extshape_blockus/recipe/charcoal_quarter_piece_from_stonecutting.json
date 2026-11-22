@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:charcoal_block",
+  "result": {
+    "count": 4,
+    "id": "extshape_blockus:charcoal_quarter_piece"
+  }
+}

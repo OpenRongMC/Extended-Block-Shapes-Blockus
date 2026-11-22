@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "blockus:gold_plating_slab"
+  ],
+  "result": {
+    "id": "extshape_blockus:gold_plating_vertical_slab"
+  }
+}

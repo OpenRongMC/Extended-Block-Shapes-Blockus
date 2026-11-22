@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:sandy_bricks",
+  "result": {
+    "count": 4,
+    "id": "extshape_blockus:sandy_brick_quarter_piece"
+  }
+}

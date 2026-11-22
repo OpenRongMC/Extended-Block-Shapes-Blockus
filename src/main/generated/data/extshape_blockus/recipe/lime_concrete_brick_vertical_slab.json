@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "concrete_brick_vertical_slab_from_rotation",
+  "ingredients": [
+    "blockus:lime_concrete_brick_slab"
+  ],
+  "result": {
+    "id": "extshape_blockus:lime_concrete_brick_vertical_slab"
+  }
+}

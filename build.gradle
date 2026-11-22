@@ -1,0 +1,93 @@
+import com.modrinth.minotaur.dependencies.ModDependency
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
+
+apply plugin: 'maven-publish'
+apply plugin: 'net.darkhax.curseforgegradle'
+apply plugin: "com.github.breadmoirai.github-release"
+apply plugin: "com.modrinth.minotaur"
+base {
+    archivesName = rootProject.archives_base_name_blockus + "-fabric"
+}
+version = rootProject.mod_version + '+mc' + rootProject.minecraft_version
+group = rootProject.maven_group
+
+repositories {
+}
+dependencies {
+    // 由于 Blockus 模组取消了对 Terraform 的依赖，这里也一并进取消
+    // Blockus 模组
+//    api("com.terraformersmc.terraform-api:terraform-wood-api-v1:${project.terraform_version}") {
+//        exclude module: "fabric-loader"
+//    }
+//    compileOnly "com.terraformersmc.terraform-api:terraform-shapes-api-v1:${project.terraform_version}"
+    api "maven.modrinth:blockus:${project.blockus_version}"
+    implementation rootProject
+}
+
+// 模组发布部分
+
+println "Extended Block Shapes (Blockus) 当前版本（${project.mod_version}）更新记录："
+final String changelogContent = getUpdateLog(project.mod_version, project)
+println changelogContent
+
+tasks.register('curseforge', TaskPublishCurseForge) {
+    doFirst {
+        def curseForgeToken = System.getenv("CURSEFORGE_TOKEN")
+        println("CurseForge 令牌: ${screenToken(curseForgeToken)}")
+        if (curseForgeToken) apiToken = curseForgeToken
+    }
+    def mainFile = upload('841655', jar)
+    mainFile.changelog = changelogContent
+    mainFile.changelogType = 'markdown'
+    mainFile.releaseType = release_type
+
+    for (final String v in ((rootProject.supported_minecraft_versions as String).split(','))) {
+        mainFile.addGameVersion v
+    }
+
+    mainFile.addRelations 'requiredDependency', 'fabric-api', 'blockus'
+
+    mainFile.addEnvironment 'Client', 'Server'
+}
+modrinth {
+    projectId = 'qAQHIBF8'
+    String platform = project.properties.getOrDefault 'loom.platform', 'fabric'
+    versionNumber = "${rootProject.mod_version}+mc${rootProject.minecraft_version}"
+    versionType = release_type
+    uploadFile = jar
+    gameVersions = project.supported_minecraft_versions.isEmpty() ? List.of(rootProject.minecraft_version as String) : (project.supported_minecraft_versions as String).split(',') as List<String>
+    loaders = [platform]
+    var list = [new ModDependency('tb7kCxSW', 'required'), new ModDependency('zFiY2Go0', 'required')]
+    if (platform == 'fabric') list.add new ModDependency('P7dR8mSH', 'required')
+    dependencies = list
+    changelog = changelogContent
+}
+githubRelease {
+    def githubToken = System.getenv("GITHUB_TOKEN")
+    if (githubToken) token = githubToken
+    tasks.githubRelease.doFirst {
+        println "GitHub 令牌: ${screenToken(githubToken)}"
+    }
+    owner = "SolidBlock-cn"
+    repo = "extshape"
+    tagName = "v$project.mod_version"
+    targetCommitish = "26.3"
+    releaseName = "v$project.mod_version"
+    body = changelogContent
+    draft = true
+    prerelease = false
+    releaseAssets jar, sourcesJar
+    allowUploadToExisting = true
+    apiEndpoint = "https://api.github.com"
+}
+
+publish {
+    dependsOn tasks.curseforge, tasks.modrinth, tasks.githubRelease
+}
+
+fabricApi {
+    configureDataGeneration() {
+        it.modId = "extshape_blockus"
+        client = true
+    }
+}

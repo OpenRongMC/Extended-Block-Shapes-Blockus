@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:magenta_concrete",
+  "result": {
+    "id": "extshape_blockus:magenta_concrete_brick_vertical_stairs"
+  }
+}

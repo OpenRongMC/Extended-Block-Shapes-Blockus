@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "extshape_blockus:gold_plating_vertical_stairs"
+  ],
+  "result": {
+    "id": "blockus:gold_plating_stairs"
+  }
+}

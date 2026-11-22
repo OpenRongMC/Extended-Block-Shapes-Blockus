@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:viridite_tiles",
+  "result": {
+    "id": "extshape_blockus:viridite_tile_vertical_stairs"
+  }
+}

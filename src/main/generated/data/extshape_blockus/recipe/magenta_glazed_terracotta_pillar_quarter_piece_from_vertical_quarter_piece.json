@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "glazed_terracotta_pillar_quarter_piece_from_rotation",
+  "ingredients": [
+    "extshape_blockus:magenta_glazed_terracotta_pillar_vertical_quarter_piece"
+  ],
+  "result": {
+    "id": "extshape_blockus:magenta_glazed_terracotta_pillar_quarter_piece"
+  }
+}

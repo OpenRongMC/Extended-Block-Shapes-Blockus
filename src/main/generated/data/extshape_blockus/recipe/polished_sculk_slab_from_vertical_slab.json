@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "extshape_blockus:polished_sculk_vertical_slab"
+  ],
+  "result": {
+    "id": "blockus:polished_sculk_slab"
+  }
+}

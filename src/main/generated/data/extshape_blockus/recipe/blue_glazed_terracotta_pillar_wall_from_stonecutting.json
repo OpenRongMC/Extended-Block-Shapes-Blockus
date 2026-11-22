@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:blue_glazed_terracotta_pillar",
+  "result": {
+    "id": "extshape_blockus:blue_glazed_terracotta_pillar_wall"
+  }
+}

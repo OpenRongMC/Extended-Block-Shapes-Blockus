@@ -1,0 +1,13 @@
+{
+  "values": [
+    "extshape_blockus:prismarine_circular_paving_slab",
+    "extshape_blockus:prismarine_circular_paving_pressure_plate",
+    "extshape_blockus:prismarine_tile_vertical_slab",
+    "extshape_blockus:prismarine_tile_vertical_stairs",
+    "extshape_blockus:prismarine_tile_quarter_piece",
+    "extshape_blockus:prismarine_tile_vertical_quarter_piece",
+    "extshape_blockus:prismarine_tile_fence",
+    "extshape_blockus:prismarine_tile_fence_gate",
+    "extshape_blockus:prismarine_tile_pressure_plate"
+  ]
+}

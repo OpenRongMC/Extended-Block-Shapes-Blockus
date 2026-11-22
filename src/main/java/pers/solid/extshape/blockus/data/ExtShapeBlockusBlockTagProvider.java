@@ -1,0 +1,455 @@
+package pers.solid.extshape.blockus.data;
+
+import com.brand.blockus.registry.content.BlockusBlocks;
+import com.brand.blockus.registry.content.bundles.BSSWBundle;
+import com.brand.blockus.registry.tag.BlockusBlockTags;
+import com.brand.blockus.utils.helper.BlockOrder;
+import com.brand.blockus.utils.helper.WoodMaps;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Streams;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ColorCollection;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Nullable;
+import pers.solid.extshape.blockus.ExtShapeBlockusBlocks;
+import pers.solid.extshape.blockus.ExtShapeBlockusTags;
+import pers.solid.extshape.builder.BlockShape;
+import pers.solid.extshape.data.ExtShapeBlockTagProvider;
+import pers.solid.extshape.tag.ExtShapeTags;
+import pers.solid.extshape.util.BlockBiMaps;
+
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Stream;
+
+public class ExtShapeBlockusBlockTagProvider extends ExtShapeBlockTagProvider {
+  public static final ImmutableSet<String> STONE_BASE_BLOCK_KEYWORDS = ImmutableSet.of("stone", "andesite", "granite", "diorite", "limestone", "marble", "viridite", "netherrack", "basalt", "deepslate", "tuff", "sulfur", "cinnabar", "nether_brick");
+  /**
+   * 此集内的方块会被加入 {@code #stone_pressure_plates} 和 {@code #stone_buttons}。注意这些方块必须要拥有 {@code mineable/pickaxe} 标签。
+   */
+  public static final ImmutableSet<Block> STONE_BASE_BLOCKS = ExtShapeBlockusBlocks.BLOCKUS_BASE_BLOCKS.stream().filter(block -> STONE_BASE_BLOCK_KEYWORDS.stream().anyMatch(BuiltInRegistries.BLOCK.getKey(block).getPath()::contains)).filter(block -> !BuiltInRegistries.BLOCK.getKey(block).getPath().contains("glowstone")).collect(ImmutableSet.toImmutableSet());
+
+  public ExtShapeBlockusBlockTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+    super(output, registriesFuture);
+  }
+
+  @Override
+  protected boolean isStoneBaseBlock(Block baseBlock) {
+    return super.isStoneBaseBlock(baseBlock) || STONE_BASE_BLOCKS.contains(baseBlock);
+  }
+
+  @Override
+  protected void addTags(HolderLookup.Provider wrapperLookup) {
+    // region 形状标签
+
+    final ImmutableSet<Block> mossyPlanksBlocks = BlockusBlocks.MOSSY_PLANKS.bundle().values().stream().map(BSSWBundle::block).collect(ImmutableSet.toImmutableSet());
+    final Set<Block> blockusGlazedTerracottaBlocks = Set.copyOf(BlockusBlocks.GLAZED_TERRACOTTA_PILLAR.blocks().asList());
+    for (Block baseBlock : ExtShapeBlockusBlocks.BLOCKUS_BASE_BLOCKS) {
+      if (blockusGlazedTerracottaBlocks.contains(baseBlock)) {
+        addShapesToCorrespondingTags(baseBlock, ExtShapeBlockusTags.GLAZED_TERRACOTTA_PILLAR_TAGS);
+      } else if (BlockusBlocks.SMALL_LOGS.bundle().containsValue(baseBlock)) {
+        addShapesToCorrespondingTags(baseBlock, ExtShapeTags.SHAPE_TO_LOG_TAG);
+      } else if (BlockusBlocks.HERRINGBONE_PLANKS.bundle().containsValue(baseBlock) || mossyPlanksBlocks.contains(baseBlock) || baseBlock == BlockusBlocks.WHITE_OAK.planks() || baseBlock == BlockusBlocks.CHARRED.planks() || baseBlock == BlockusBlocks.RAW_BAMBOO.planks() || baseBlock == BlockusBlocks.WHITE_OAK_WOOD || baseBlock == BlockusBlocks.STRIPPED_WHITE_OAK_WOOD) {
+        addShapesToCorrespondingTags(baseBlock, ExtShapeTags.SHAPE_TO_WOODEN_TAG);
+      } else {
+        addShapesToCorrespondingTags(baseBlock, ExtShapeTags.SHAPE_TO_TAG);
+      }
+    }
+    ExtShapeBlockusTags.GLAZED_TERRACOTTA_PILLAR_TAGS.forEach((blockShape, tag) -> {
+      builder(ExtShapeTags.SHAPE_TO_TAG.get(blockShape)).addTag(tag);
+      builder(BlockTags.MINEABLE_WITH_PICKAXE).addTag(tag);
+    });
+
+    // endregion
+
+    // region mineable 方块标签
+
+    addForShapes(BlockTags.MINEABLE_WITH_PICKAXE,
+        BlockusBlocks.CRIMSON_WART_BRICKS.block(),
+        BlockusBlocks.WARPED_WART_BRICKS.block(),
+        BlockusBlocks.NETHER_TILES.block(),
+        BlockusBlocks.END_TILES.block(),
+        BlockusBlocks.IRON_BRICKS.block(),
+        BlockusBlocks.GOLD_BRICKS.block(),
+        BlockusBlocks.LAPIS_BRICKS.block(),
+        BlockusBlocks.REDSTONE_BRICKS.block(),
+        BlockusBlocks.EMERALD_BRICKS.block(),
+        BlockusBlocks.DIAMOND_BRICKS.block(),
+        BlockusBlocks.NETHERITE_BRICKS.block(),
+        BlockusBlocks.CHARCOAL_BLOCK,
+        BlockusBlocks.ENDER_BLOCK,
+        BlockusBlocks.NETHER_STAR_BLOCK,
+        BlockusBlocks.STARS_BLOCK);
+
+    builder(BlockTags.MINEABLE_WITH_PICKAXE).removeAll(Streams.concat(Stream.of(
+            BlockusBlocks.PAPER_BLOCK,
+            BlockusBlocks.BURNT_PAPER_BLOCK,
+            BlockusBlocks.ROTTEN_FLESH_BLOCK,
+            BlockusBlocks.MEMBRANE_BLOCK,
+            BlockusBlocks.BLAZE_LANTERN,
+            BlockusBlocks.RAINBOW_GLOWSTONE,
+            BlockusBlocks.CHORUS_BLOCK,
+            BlockusBlocks.THATCH.block()
+        ), BlockOrder.COLOR.stream().map(BlockusBlocks.PATTERNED_WOOL.block().blocks()::pick), BlockOrder.COLOR.stream().map(BlockusBlocks.GINGHAM_WOOL.block().blocks()::pick), Arrays.stream(BlockOrder.WOOD).map(WoodMaps::getId).map(BlockusBlocks.WOODEN_MOSAIC.bundle()::get).filter(Objects::nonNull).map(BSSWBundle::block))
+        .map(block -> BlockBiMaps.getBlockOf(BlockShape.WALL, block))
+        .filter(Objects::nonNull)
+        .filter(ExtShapeBlockusBlocks.BLOCKUS_BLOCKS::contains)
+        .flatMap(block -> BuiltInRegistries.BLOCK.getResourceKey(block).stream()));
+    // 注：主模组已经将 wooden_wall 和 log_wall 标签移出 mineable/pickaxe 标签。
+
+    final ImmutableSet<Block> woodenBlocks = ImmutableSet.of(BlockusBlocks.WHITE_OAK_WOOD, BlockusBlocks.STRIPPED_WHITE_OAK_WOOD); // 木马赛克等方块本就没有创建栅栏门，故不计入，一些方块的栅栏在 Blockus 中就有，故也不计入
+    builder(BlockTags.MINEABLE_WITH_AXE).removeAll(ExtShapeBlockusBlocks.BLOCKUS_BASE_BLOCKS
+        .stream()
+        .filter(block -> !woodenBlocks.contains(block))
+        .map(block -> BlockBiMaps.getBlockOf(BlockShape.FENCE_GATE, block))
+        .filter(Objects::nonNull)
+        .filter(ExtShapeBlockusBlocks.BLOCKUS_BLOCKS::contains)
+        .flatMap(block -> BuiltInRegistries.BLOCK.getResourceKey(block).stream()));
+
+    addForShapes(BlockTags.MINEABLE_WITH_HOE,
+        BlockusBlocks.CHORUS_BLOCK,
+        BlockusBlocks.THATCH.block(),
+        BlockusBlocks.ROTTEN_FLESH_BLOCK);
+
+    addForShapes(BlockTags.NEEDS_STONE_TOOL,
+        BlockusBlocks.ENDER_BLOCK,
+        BlockusBlocks.IRON_BRICKS.block(),
+        BlockusBlocks.LAPIS_BRICKS.block()
+    );
+    addForShapes(BlockTags.NEEDS_IRON_TOOL,
+        BlockusBlocks.GOLD_BRICKS.block(),
+        BlockusBlocks.EMERALD_BRICKS.block(),
+        BlockusBlocks.DIAMOND_BRICKS.block(),
+        BlockusBlocks.NETHER_STAR_BLOCK
+    );
+
+    addForShapes(BlockTags.NEEDS_DIAMOND_TOOL, BlockusBlocks.NETHERITE_BRICKS.block());
+
+    addForShapes(BlockTags.SWORD_EFFICIENT, BlockusBlocks.CHORUS_BLOCK);
+
+    // endregion mineable 方块标签
+
+    // region 特殊方块标签
+    addForShapes(BlockusBlockTags.STONE_BLOCKS,
+        BlockusBlocks.COBBLESTONE_BRICKS.block(),
+        BlockusBlocks.MOSSY_COBBLESTONE_BRICKS.block(),
+        BlockusBlocks.STONE_TILES.block(),
+        BlockusBlocks.HERRINGBONE_STONE_BRICKS,
+        BlockusBlocks.STONE_CIRCULAR_PAVING
+    );
+
+    addForShapes(BlockusBlockTags.ANDESITE_BLOCKS,
+        BlockusBlocks.ANDESITE_BRICKS.block(),
+        BlockusBlocks.HERRINGBONE_ANDESITE_BRICKS,
+        BlockusBlocks.ANDESITE_CIRCULAR_PAVING
+    );
+
+    addForShapes(BlockusBlockTags.DIORITE_BLOCKS,
+        BlockusBlocks.DIORITE_BRICKS.block(),
+        BlockusBlocks.HERRINGBONE_DIORITE_BRICKS,
+        BlockusBlocks.DIORITE_CIRCULAR_PAVING
+    );
+
+    addForShapes(BlockusBlockTags.GRANITE_BLOCKS,
+        BlockusBlocks.GRANITE_BRICKS.block(),
+        BlockusBlocks.HERRINGBONE_GRANITE_BRICKS,
+        BlockusBlocks.GRANITE_CIRCULAR_PAVING);
+
+    addForShapes(BlockusBlockTags.DRIPSTONE_BLOCKS,
+        BlockusBlocks.POLISHED_DRIPSTONE.block(),
+        BlockusBlocks.DRIPSTONE_BRICKS.block(),
+        BlockusBlocks.MOSSY_DRIPSTONE_BRICKS.block());
+
+    addForShapes(BlockusBlockTags.SULFUR_BLOCKS,
+        BlockusBlocks.SULFUR_TILES.block(),
+        BlockusBlocks.HERRINGBONE_SULFUR_BRICKS,
+        BlockusBlocks.SULFUR_CIRCULAR_PAVING);
+    addForShapes(BlockusBlockTags.CINNABAR_BLOCKS,
+        BlockusBlocks.CINNABAR_TILES.block(),
+        BlockusBlocks.HERRINGBONE_CINNABAR_BRICKS,
+        BlockusBlocks.CINNABAR_CIRCULAR_PAVING);
+
+    addForShapes(BlockusBlockTags.TUFF_BLOCKS,
+        BlockusBlocks.MOSSY_TUFF_BRICKS.block(),
+        BlockusBlocks.TUFF_TILES.block(),
+        BlockusBlocks.HERRINGBONE_TUFF_BRICKS,
+        BlockusBlocks.TUFF_CIRCULAR_PAVING);
+
+    addForShapes(BlockusBlockTags.DEEPSLATE_BLOCKS,
+        BlockusBlocks.COBBLED_DEEPSLATE_BRICKS.block(),
+        BlockusBlocks.MOSSY_DEEPSLATE_BRICKS.block(),
+        BlockusBlocks.HERRINGBONE_DEEPSLATE_BRICKS,
+        BlockusBlocks.DEEPSLATE_CIRCULAR_PAVING,
+        BlockusBlocks.MOSSY_COBBLED_DEEPSLATE.block(),
+        BlockusBlocks.MOSSY_COBBLED_DEEPSLATE_BRICKS.block());
+
+    addForShapes(BlockusBlockTags.SCULK_BLOCKS,
+        BlockusBlocks.POLISHED_SCULK.block(),
+        BlockusBlocks.SCULK_BRICKS.block());
+
+    addForShapes(BlockusBlockTags.AMETHYST_BLOCKS,
+        BlockusBlocks.POLISHED_AMETHYST.block(),
+        BlockusBlocks.AMETHYST_BRICKS.block());
+
+    addForShapes(BlockusBlockTags.BLACKSTONE_BLOCKS,
+        BlockusBlocks.POLISHED_BLACKSTONE_TILES.block(),
+        BlockusBlocks.CRIMSON_WARTY_BLACKSTONE_BRICKS.block(),
+        BlockusBlocks.WARPED_WARTY_BLACKSTONE_BRICKS.block(),
+        BlockusBlocks.HERRINGBONE_POLISHED_BLACKSTONE_BRICKS,
+        BlockusBlocks.POLISHED_BLACKSTONE_CIRCULAR_PAVING
+    );
+
+    addForShapes(BlockusBlockTags.BASALT_BLOCKS,
+        BlockusBlocks.ROUGH_BASALT.block(),
+        BlockusBlocks.POLISHED_BASALT_BRICKS.block(),
+        BlockusBlocks.HERRINGBONE_POLISHED_BASALT_BRICKS,
+        BlockusBlocks.POLISHED_BASALT_CIRCULAR_PAVING
+    );
+
+    addForShapes(BlockusBlockTags.LIMESTONE,
+        BlockusBlocks.LIMESTONE.block(),
+        BlockusBlocks.POLISHED_LIMESTONE.block(),
+        BlockusBlocks.LIMESTONE_BRICKS.block(),
+        BlockusBlocks.SMALL_LIMESTONE_BRICKS.block(),
+        BlockusBlocks.LIMESTONE_TILES.block(),
+        BlockusBlocks.LIMESTONE_SQUARES.block(),
+        BlockusBlocks.LIMESTONE_CIRCULAR_PAVING
+    );
+
+    addForShapes(BlockusBlockTags.MARBLE,
+        BlockusBlocks.MARBLE.block(),
+        BlockusBlocks.POLISHED_MARBLE.block(),
+        BlockusBlocks.MARBLE_BRICKS.block(),
+        BlockusBlocks.SMALL_MARBLE_BRICKS.block(),
+        BlockusBlocks.MARBLE_TILES.block(),
+        BlockusBlocks.MARBLE_SQUARES.block(),
+        BlockusBlocks.MARBLE_CIRCULAR_PAVING
+    );
+
+    addForShapes(BlockusBlockTags.BLUESTONE,
+        BlockusBlocks.BLUESTONE.block(),
+        BlockusBlocks.POLISHED_BLUESTONE.block(),
+        BlockusBlocks.BLUESTONE_BRICKS.block(),
+        BlockusBlocks.SMALL_BLUESTONE_BRICKS.block(),
+        BlockusBlocks.BLUESTONE_TILES.block(),
+        BlockusBlocks.BLUESTONE_SQUARES.block(),
+        BlockusBlocks.BLUESTONE_CIRCULAR_PAVING
+    );
+
+    addForShapes(BlockusBlockTags.VIRIDITE,
+        BlockusBlocks.VIRIDITE.block(),
+        BlockusBlocks.POLISHED_VIRIDITE.block(),
+        BlockusBlocks.VIRIDITE_BRICKS.block(),
+        BlockusBlocks.SMALL_VIRIDITE_BRICKS.block(),
+        BlockusBlocks.VIRIDITE_TILES.block(),
+        BlockusBlocks.VIRIDITE_SQUARES.block(),
+        BlockusBlocks.VIRIDITE_CIRCULAR_PAVING
+    );
+
+    addForShapes(BlockusBlockTags.WATER_BRICKS, BlockusBlocks.WATER_BRICKS.block());
+    addForShapes(BlockusBlockTags.LAVA_BRICKS,
+        BlockusBlocks.LAVA_BRICKS.block()
+    );
+    addForShapes(BlockusBlockTags.LAVA_POLISHED_BLACKSTONE_BRICKS,
+        BlockusBlocks.LAVA_POLISHED_BLACKSTONE_BRICKS.block()
+    );
+
+    addForShapes(BlockusBlockTags.SNOW_BRICKS, BlockusBlocks.SNOW_BRICKS.block());
+    addForShapes(BlockusBlockTags.ICE_BRICKS, BlockusBlocks.PACKED_ICE_BRICKS.block());
+
+    addForShapes(BlockusBlockTags.OBSIDIAN,
+        BlockusBlocks.OBSIDIAN_BRICKS.block(),
+        BlockusBlocks.SMALL_OBSIDIAN_BRICKS.block(),
+        BlockusBlocks.OBSIDIAN_CIRCULAR_PAVING,
+        BlockusBlocks.GLOWING_OBSIDIAN,
+        BlockusBlocks.CRYING_OBSIDIAN_BRICKS.block(),
+        BlockusBlocks.SMALL_CRYING_OBSIDIAN_BRICKS.block(),
+        BlockusBlocks.CRYING_OBSIDIAN_CIRCULAR_PAVING
+    );
+
+    addForShapes(BlockusBlockTags.NETHERRACK_BLOCKS,
+        BlockusBlocks.POLISHED_NETHERRACK.block(),
+        BlockusBlocks.NETHERRACK_BRICKS.block(),
+        BlockusBlocks.NETHERRACK_CIRCULAR_PAVING
+    );
+
+    addForShapes(BlockusBlockTags.QUARTZ_BLOCKS,
+        BlockusBlocks.QUARTZ_TILES.block(),
+        BlockusBlocks.QUARTZ_CIRCULAR_PAVING);
+
+    addForShapes(BlockusBlockTags.MAGMA_BRICKS,
+        BlockusBlocks.MAGMA_BRICKS.block(),
+        BlockusBlocks.SMALL_MAGMA_BRICKS.block()
+    );
+
+    addForShapes(BlockusBlockTags.BLAZE_BRICKS, BlockusBlocks.BLAZE_BRICKS.block());
+
+    addForShapes(BlockusBlockTags.NETHER_BRICKS,
+        BlockusBlocks.POLISHED_NETHER_BRICKS.block(),
+        BlockusBlocks.POLISHED_RED_NETHER_BRICKS.block(),
+        BlockusBlocks.HERRINGBONE_NETHER_BRICKS,
+        BlockusBlocks.HERRINGBONE_RED_NETHER_BRICKS,
+        BlockusBlocks.CHARRED_NETHER_BRICKS.block(),
+        BlockusBlocks.POLISHED_CHARRED_NETHER_BRICKS.block(),
+        BlockusBlocks.HERRINGBONE_CHARRED_NETHER_BRICKS,
+        BlockusBlocks.TEAL_NETHER_BRICKS.block(),
+        BlockusBlocks.POLISHED_TEAL_NETHER_BRICKS.block(),
+        BlockusBlocks.HERRINGBONE_TEAL_NETHER_BRICKS
+    );
+
+    addForShapes(BlockusBlockTags.PRISMARINE_BLOCKS,
+        BlockusBlocks.PRISMARINE_CIRCULAR_PAVING,
+        BlockusBlocks.PRISMARINE_TILES.block()
+    );
+
+    addForShapes(BlockusBlockTags.BRICKS_BLOCKS,
+        BlockusBlocks.LARGE_BRICKS.block(),
+        BlockusBlocks.HERRINGBONE_BRICKS,
+        BlockusBlocks.SOAKED_BRICKS.block(),
+        BlockusBlocks.HERRINGBONE_SOAKED_BRICKS,
+        BlockusBlocks.CHARRED_BRICKS.block(),
+        BlockusBlocks.HERRINGBONE_CHARRED_BRICKS,
+        BlockusBlocks.SANDY_BRICKS.block(),
+        BlockusBlocks.HERRINGBONE_SANDY_BRICKS
+    );
+
+    addForShapes(BlockusBlockTags.TUFF_BLOCKS, BlockusBlocks.COPPER_TUFF_BRICKS.block().blocks().asList());
+    addForShapes(BlockusBlockTags.COPPER_BLOCKS, BlockusBlocks.COPPER_BRICKS.block().blocks().asList());
+
+    addForShapes(BlockusBlockTags.RESIN_BLOCKS, BlockusBlocks.LARGE_RESIN_BRICKS.block(), BlockusBlocks.HERRINGBONE_RESIN_BRICKS);
+
+    addForShapes(BlockusBlockTags.SANDSTONE,
+        BlockusBlocks.ROUGH_SANDSTONE.block(),
+        BlockusBlocks.SANDSTONE_BRICKS.block(),
+        BlockusBlocks.SMALL_SANDSTONE_BRICKS.block()
+    );
+
+    addForShapes(BlockusBlockTags.RED_SANDSTONE,
+        BlockusBlocks.ROUGH_RED_SANDSTONE.block(),
+        BlockusBlocks.RED_SANDSTONE_BRICKS.block(),
+        BlockusBlocks.SMALL_RED_SANDSTONE_BRICKS.block()
+    );
+
+    addForShapes(BlockusBlockTags.SOUL_SANDSTONE,
+        BlockusBlocks.SOUL_SANDSTONE.block(),
+        BlockusBlocks.ROUGH_SOUL_SANDSTONE.block(),
+        BlockusBlocks.SOUL_SANDSTONE_BRICKS.block(),
+        BlockusBlocks.SMALL_SOUL_SANDSTONE_BRICKS.block(),
+        BlockusBlocks.SMOOTH_SOUL_SANDSTONE.block(),
+        BlockusBlocks.CUT_SOUL_SANDSTONE
+    );
+
+    addForShapes(BlockusBlockTags.RAINBOW_BLOCKS,
+        BlockusBlocks.RAINBOW_BLOCK,
+        BlockusBlocks.RAINBOW_BRICKS.block());
+
+    addForShapes(BlockusBlockTags.HONEYCOMB_BLOCKS, BlockusBlocks.HONEYCOMB_BRICKS.block());
+
+    addForShapes(BlockusBlockTags.PURPUR_BLOCKS,
+        BlockusBlocks.PURPUR_BRICKS.block(),
+        BlockusBlocks.SMALL_PURPUR_BRICKS.block(),
+        BlockusBlocks.POLISHED_PURPUR.block(),
+        BlockusBlocks.PURPUR_SQUARES.block()
+    );
+
+    addForShapes(BlockusBlockTags.PHANTOM_PURPUR_BLOCKS,
+        BlockusBlocks.PHANTOM_PURPUR_BRICKS.block(),
+        BlockusBlocks.SMALL_PHANTOM_PURPUR_BRICKS.block(),
+        BlockusBlocks.PHANTOM_PURPUR_BLOCK.block(),
+        BlockusBlocks.POLISHED_PHANTOM_PURPUR.block(),
+        BlockusBlocks.PHANTOM_PURPUR_SQUARES.block()
+    );
+
+    addForShapes(BlockusBlockTags.END_STONE_BLOCKS,
+        BlockusBlocks.POLISHED_END_STONE.block(),
+        BlockusBlocks.SMALL_END_STONE_BRICKS.block(),
+        BlockusBlocks.HERRINGBONE_END_STONE_BRICKS
+    );
+
+    addForShapes(ExtShapeTags.LOG_BLOCKS,
+        BlockusBlocks.WHITE_OAK_WOOD,
+        BlockusBlocks.STRIPPED_WHITE_OAK_WOOD
+    );
+
+    final Map<String, BSSWBundle> woodenMosaicBundle = BlockusBlocks.WOODEN_MOSAIC.bundle();
+    final Map<String, BSSWBundle> mossyPlanksBundle = BlockusBlocks.MOSSY_PLANKS.bundle();
+    for (WoodMaps woodMaps : BlockOrder.WOOD) {
+      if (woodenMosaicBundle.containsKey(woodMaps.getId())) {
+        addForShapes(BlockusBlockTags.ALL_WOODEN_MOSAICS, woodenMosaicBundle.get(woodMaps.getId()).block());
+      }
+      if (mossyPlanksBundle.containsKey(woodMaps.getId())) {
+        addForShapes(BlockusBlockTags.ALL_MOSSY_PLANKS, mossyPlanksBundle.get(woodMaps.getId()).block());
+      }
+    }
+
+    addForShapes(BlockusBlockTags.CHOCOLATE_BLOCKS,
+        BlockusBlocks.CHOCOLATE_BLOCK.block(),
+        BlockusBlocks.CHOCOLATE_BRICKS.block(),
+        BlockusBlocks.CHOCOLATE_SQUARES.block()
+    );
+
+    addForShapes(BlockTags.BEACON_BASE_BLOCKS,
+        BlockusBlocks.IRON_BRICKS.block(),
+        BlockusBlocks.GOLD_BRICKS.block(),
+        BlockusBlocks.EMERALD_BRICKS.block(),
+        BlockusBlocks.DIAMOND_BRICKS.block(),
+        BlockusBlocks.NETHERITE_BRICKS.block()
+    );
+
+
+    final ColorCollection<Block> stainedStoneBricks = BlockusBlocks.DYED_STONE_BRICKS.block().blocks();
+    addForShapes(BlockusBlockTags.ALL_DYED_STONE_BRICKS, Arrays.stream(DyeColor.values()).map(stainedStoneBricks::pick)::iterator);
+
+    final ColorCollection<Block> concreteBricks = BlockusBlocks.CONCRETE_BRICKS.block().blocks();
+    addForShapes(BlockusBlockTags.ALL_CONCRETE_BRICKS, Arrays.stream(DyeColor.values()).map(concreteBricks::pick)::iterator);
+
+    addForShapes(BlockusBlockTags.ALL_SHINGLES, BlockusBlocks.SHINGLES.block());
+    final ColorCollection<Block> stainedShingles = BlockusBlocks.DYED_SHINGLES.block().blocks();
+    addForShapes(BlockusBlockTags.ALL_SHINGLES, Arrays.stream(DyeColor.values()).map(stainedShingles::pick)::iterator);
+
+    final ColorCollection<Block> patternedWools = BlockusBlocks.PATTERNED_WOOL.block().blocks();
+    final ColorCollection<Block> ginghamWools = BlockusBlocks.GINGHAM_WOOL.block().blocks();
+    addForShapes(BlockusBlockTags.ALL_PATTERNED_WOOLS, Arrays.stream(DyeColor.values()).flatMap(dyeColor -> Stream.of(patternedWools.pick(dyeColor), ginghamWools.pick(dyeColor)))::iterator);
+    addForShapes(ExtShapeTags.WOOLEN_BLOCKS, Arrays.stream(DyeColor.values()).flatMap(dyeColor -> Stream.of(patternedWools.pick(dyeColor), ginghamWools.pick(dyeColor)))::iterator);
+
+    addForShapes(BlockusBlockTags.THATCH, BlockusBlocks.THATCH.block());
+
+    addForShapes(BlockusBlockTags.PLATINGS,
+        BlockusBlocks.IRON_PLATING.block(),
+        BlockusBlocks.GOLD_PLATING.block());
+
+    addForShapes(BlockTags.INFINIBURN_OVERWORLD, BlockusBlocks.CHARCOAL_BLOCK);
+    addForShapes(BlockTags.DRAGON_IMMUNE, BlockusBlocks.NETHER_STAR_BLOCK);
+
+    // endregion 特殊方块标签
+
+    // region 其他通用方块标签
+    addForShapes(BlockTags.GUARDED_BY_PIGLINS,
+        BlockusBlocks.GOLD_PLATING.block(),
+        BlockusBlocks.GOLD_BRICKS.block()
+    );
+
+    // endregion 其他通用方块标签
+  }
+
+  @Contract("null -> fail")
+  @Override
+  protected void checkValidBaseBlock(@Nullable Block baseBlock) {
+    Preconditions.checkArgument(ExtShapeBlockusBlocks.BLOCKUS_BASE_BLOCKS.contains(baseBlock), "%s is not a base block for Extended Block Shapes - Blockus", baseBlock);
+  }
+
+  @Contract("null -> false")
+  @Override
+  protected boolean isValidBlock(@Nullable Block block) {
+    return ExtShapeBlockusBlocks.BLOCKUS_BLOCKS.contains(block);
+  }
+}

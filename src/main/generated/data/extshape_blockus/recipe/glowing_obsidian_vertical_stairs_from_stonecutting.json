@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:glowing_obsidian",
+  "result": {
+    "id": "extshape_blockus:glowing_obsidian_vertical_stairs"
+  }
+}

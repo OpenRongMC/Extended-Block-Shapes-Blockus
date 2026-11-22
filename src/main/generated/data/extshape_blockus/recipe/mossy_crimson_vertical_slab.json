@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "mossy_wooden_vertical_slab_from_rotation",
+  "ingredients": [
+    "blockus:mossy_crimson_slab"
+  ],
+  "result": {
+    "id": "extshape_blockus:mossy_crimson_vertical_slab"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "blockus:andesite_brick_stairs"
+  ],
+  "result": {
+    "id": "extshape_blockus:andesite_brick_vertical_stairs"
+  }
+}

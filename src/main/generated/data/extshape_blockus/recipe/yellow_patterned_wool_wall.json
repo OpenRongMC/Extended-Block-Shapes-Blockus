@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "patterned_wool_wall",
+  "key": {
+    "#": "blockus:yellow_patterned_wool"
+  },
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "id": "extshape_blockus:yellow_patterned_wool_wall"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": "extshape_blockus:smooth_soul_sandstone_vertical_slab"
+  },
+  "pattern": [
+    "#",
+    "#",
+    "#"
+  ],
+  "result": {
+    "count": 6,
+    "id": "extshape_blockus:smooth_soul_sandstone_vertical_quarter_piece"
+  }
+}

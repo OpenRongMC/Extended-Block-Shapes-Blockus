@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:marble_squares",
+  "result": {
+    "count": 4,
+    "id": "extshape_blockus:marble_squares_quarter_piece"
+  }
+}

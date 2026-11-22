@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "wooden_mosaic_vertical_slab_from_rotation",
+  "ingredients": [
+    "blockus:acacia_mosaic_slab"
+  ],
+  "result": {
+    "id": "extshape_blockus:acacia_mosaic_vertical_slab"
+  }
+}

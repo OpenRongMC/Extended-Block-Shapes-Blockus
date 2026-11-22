@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:quartz_block",
+  "result": {
+    "id": "extshape_blockus:quartz_tile_vertical_stairs"
+  }
+}

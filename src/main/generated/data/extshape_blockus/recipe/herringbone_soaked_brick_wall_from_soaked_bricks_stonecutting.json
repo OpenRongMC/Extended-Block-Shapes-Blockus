@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:soaked_bricks",
+  "result": {
+    "id": "extshape_blockus:herringbone_soaked_brick_wall"
+  }
+}

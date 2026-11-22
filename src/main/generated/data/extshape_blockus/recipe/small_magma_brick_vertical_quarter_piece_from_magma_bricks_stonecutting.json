@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:magma_bricks",
+  "result": {
+    "count": 4,
+    "id": "extshape_blockus:small_magma_brick_vertical_quarter_piece"
+  }
+}

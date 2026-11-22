@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "blockus:rainbow_glowstone"
+  ],
+  "result": {
+    "id": "extshape_blockus:rainbow_glowstone_button"
+  }
+}

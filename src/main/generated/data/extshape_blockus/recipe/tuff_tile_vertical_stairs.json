@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "blockus:tuff_tile_stairs"
+  ],
+  "result": {
+    "id": "extshape_blockus:tuff_tile_vertical_stairs"
+  }
+}

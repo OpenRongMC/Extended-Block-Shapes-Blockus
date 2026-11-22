@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:red_shingles",
+  "result": {
+    "id": "extshape_blockus:red_shingles_wall"
+  }
+}

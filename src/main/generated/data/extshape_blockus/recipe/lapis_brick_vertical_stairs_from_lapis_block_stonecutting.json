@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:lapis_block",
+  "result": {
+    "id": "extshape_blockus:lapis_brick_vertical_stairs"
+  }
+}

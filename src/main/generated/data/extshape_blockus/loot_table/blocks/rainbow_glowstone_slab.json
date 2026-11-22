@@ -1,0 +1,102 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "condition": "minecraft:tool/can_silk_touch",
+              "modifier": {
+                "type": "minecraft:set_count",
+                "condition": {
+                  "type": "minecraft:match_block",
+                  "blocks": "extshape_blockus:rainbow_glowstone_slab",
+                  "state": {
+                    "type": "double"
+                  }
+                },
+                "count": 2
+              },
+              "name": "extshape_blockus:rainbow_glowstone_slab"
+            },
+            {
+              "type": "minecraft:item",
+              "condition": {
+                "type": "minecraft:match_block",
+                "blocks": "extshape_blockus:rainbow_glowstone_slab",
+                "state": {
+                  "type": "double"
+                }
+              },
+              "modifier": [
+                {
+                  "type": "minecraft:set_count",
+                  "count": {
+                    "type": "minecraft:uniform",
+                    "max": 4,
+                    "min": 2
+                  }
+                },
+                {
+                  "type": "minecraft:apply_bonus",
+                  "enchantment": "minecraft:fortune",
+                  "formula": "minecraft:uniform_bonus_count",
+                  "parameters": {
+                    "bonusMultiplier": 1
+                  }
+                },
+                {
+                  "type": "minecraft:limit_count",
+                  "limit": {
+                    "max": 4,
+                    "min": 1
+                  }
+                }
+              ],
+              "name": "minecraft:glowstone_dust"
+            },
+            {
+              "type": "minecraft:item",
+              "modifier": [
+                {
+                  "type": "minecraft:set_count",
+                  "count": {
+                    "type": "minecraft:from_float",
+                    "input": {
+                      "type": "minecraft:uniform",
+                      "max": 2.0,
+                      "min": 1.0
+                    }
+                  }
+                },
+                {
+                  "type": "minecraft:apply_bonus",
+                  "enchantment": "minecraft:fortune",
+                  "formula": "minecraft:uniform_bonus_count",
+                  "parameters": {
+                    "bonusMultiplier": 1
+                  }
+                },
+                {
+                  "type": "minecraft:limit_count",
+                  "limit": {
+                    "max": 2,
+                    "min": 0
+                  }
+                },
+                {
+                  "type": "minecraft:explosion_decay"
+                }
+              ],
+              "name": "minecraft:glowstone_dust"
+            }
+          ]
+        }
+      ],
+      "rolls": 1
+    }
+  ]
+}

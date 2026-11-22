@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:nether_wart_block",
+  "result": {
+    "id": "extshape_blockus:crimson_wart_brick_vertical_stairs"
+  }
+}

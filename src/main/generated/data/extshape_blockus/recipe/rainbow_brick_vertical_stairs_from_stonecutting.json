@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:rainbow_bricks",
+  "result": {
+    "id": "extshape_blockus:rainbow_brick_vertical_stairs"
+  }
+}

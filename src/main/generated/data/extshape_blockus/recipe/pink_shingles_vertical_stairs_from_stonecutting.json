@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:pink_shingles",
+  "result": {
+    "id": "extshape_blockus:pink_shingles_vertical_stairs"
+  }
+}

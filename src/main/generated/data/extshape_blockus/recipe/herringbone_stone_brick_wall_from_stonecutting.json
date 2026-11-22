@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:herringbone_stone_bricks",
+  "result": {
+    "id": "extshape_blockus:herringbone_stone_brick_wall"
+  }
+}

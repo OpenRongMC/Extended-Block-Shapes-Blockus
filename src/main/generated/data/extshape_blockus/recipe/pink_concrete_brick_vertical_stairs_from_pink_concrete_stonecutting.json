@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:pink_concrete",
+  "result": {
+    "id": "extshape_blockus:pink_concrete_brick_vertical_stairs"
+  }
+}

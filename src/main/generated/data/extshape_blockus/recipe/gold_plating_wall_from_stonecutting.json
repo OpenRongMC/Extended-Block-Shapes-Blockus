@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:gold_plating",
+  "result": {
+    "id": "extshape_blockus:gold_plating_wall"
+  }
+}

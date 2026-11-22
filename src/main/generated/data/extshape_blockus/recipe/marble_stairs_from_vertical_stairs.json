@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "extshape_blockus:marble_vertical_stairs"
+  ],
+  "result": {
+    "id": "blockus:marble_stairs"
+  }
+}

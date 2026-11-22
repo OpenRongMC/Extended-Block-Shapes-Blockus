@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "extshape_blockus:rough_soul_sandstone_vertical_stairs"
+        }
+      ],
+      "rolls": 1
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:rough_basalt",
+  "result": {
+    "id": "extshape_blockus:rough_basalt_vertical_stairs"
+  }
+}

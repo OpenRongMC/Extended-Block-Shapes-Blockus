@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": "minecraft:end_stone_bricks",
+    "W": "blockus:end_tiles"
+  },
+  "pattern": [
+    "W#W",
+    "W#W"
+  ],
+  "result": {
+    "count": 2,
+    "id": "extshape_blockus:end_tile_fence"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": "minecraft:soul_sand",
+    "W": "blockus:smooth_soul_sandstone"
+  },
+  "pattern": [
+    "W#W",
+    "W#W"
+  ],
+  "result": {
+    "count": 2,
+    "id": "extshape_blockus:smooth_soul_sandstone_fence"
+  }
+}

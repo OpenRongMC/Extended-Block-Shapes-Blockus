@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_mosaic_wall",
+  "key": {
+    "#": "blockus:oak_mosaic"
+  },
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "id": "extshape_blockus:oak_mosaic_wall"
+  }
+}

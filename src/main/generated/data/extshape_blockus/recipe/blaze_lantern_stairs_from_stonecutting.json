@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:blaze_lantern",
+  "result": {
+    "id": "extshape_blockus:blaze_lantern_stairs"
+  }
+}

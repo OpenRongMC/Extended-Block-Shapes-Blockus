@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:diorite",
+  "result": {
+    "id": "extshape_blockus:herringbone_diorite_brick_stairs"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:gold_block",
+  "result": {
+    "id": "extshape_blockus:gold_brick_vertical_stairs"
+  }
+}

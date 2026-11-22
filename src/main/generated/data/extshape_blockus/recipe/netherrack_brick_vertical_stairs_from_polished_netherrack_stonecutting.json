@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:polished_netherrack",
+  "result": {
+    "id": "extshape_blockus:netherrack_brick_vertical_stairs"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "blockus:soaked_brick_slab"
+  ],
+  "result": {
+    "id": "extshape_blockus:soaked_brick_vertical_slab"
+  }
+}

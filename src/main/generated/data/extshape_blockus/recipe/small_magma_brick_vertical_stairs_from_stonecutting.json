@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "blockus:small_magma_bricks",
+  "result": {
+    "id": "extshape_blockus:small_magma_brick_vertical_stairs"
+  }
+}
